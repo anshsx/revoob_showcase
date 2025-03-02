@@ -1,3 +1,3 @@
-import WidgetWebComponent from "./src/web-component";
+import WidgetWebComponent from "./web-component";
 
 export default WidgetWebComponent;
