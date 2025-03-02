@@ -1,46 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Widget } from "./components/Widget";
-
-export const normalizeAttribute = (attribute) =>
-  attribute.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+import Widget from "./components/widget";
 
 class WidgetWebComponent extends HTMLElement {
-  constructor() {
-    super();
-    this.root = null;
-  }
-
   connectedCallback() {
-    this.renderReactComponent();
-  }
+    const shadowRoot = this.attachShadow({ mode: "open" });
+    const mountPoint = document.createElement("div");
+    shadowRoot.appendChild(mountPoint);
 
-  attributeChangedCallback() {
-    this.renderReactComponent();
-  }
+    const projectId = this.getAttribute("project-id"); // Get Project ID from attribute
 
-  static get observedAttributes() {
-    return ["project-id", "popover-theme", "button-theme"];
-  }
-
-  getPropsFromAttributes() {
-    const props = {};
-    for (const { name, value } of this.attributes) {
-      props[normalizeAttribute(name)] = value;
-    }
-    return props;
-  }
-
-  renderReactComponent() {
-    const props = this.getPropsFromAttributes();
-
-    if (!this.root) {
-      this.attachShadow({ mode: "open" });
-      this.root = ReactDOM.createRoot(this.shadowRoot);
-    }
-
-    this.root.render(<Widget {...props} />);
+    const root = ReactDOM.createRoot(mountPoint);
+    root.render(<Widget projectId={projectId} />);
   }
 }
 
-export default WidgetWebComponent;
+customElements.define("feedback-widget", WidgetWebComponent);
