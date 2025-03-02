@@ -1,3 +1,3 @@
 import WidgetWebComponent from "./web-component";
 
-export default WidgetWebComponent;
+customElements.define("srevoob", WidgetWebComponent);;
