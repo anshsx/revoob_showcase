@@ -14,9 +14,9 @@ const Widget = ({ projectId }) => {
       if (!projectId) return;
 
       const { data, error } = await supabase
-        .from("feedbacks")
-        .select("*")
-        .eq("p_project_id", projectId);
+        .from("Feedback")
+        .select("id, user_name, user_email, message, rating")
+        .eq("project_id", projectId);
 
       if (error) {
         console.error("Error fetching feedbacks:", error);
@@ -39,7 +39,10 @@ const Widget = ({ projectId }) => {
       ) : (
         <ul>
           {feedbacks.map((feedback) => (
-            <li key={feedback.id}>{feedback.comment}</li>
+            <li key={feedback.id}>
+              <strong>{feedback.user_name} ({feedback.rating}⭐)</strong>
+              <p>{feedback.message}</p>
+            </li>
           ))}
         </ul>
       )}
