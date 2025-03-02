@@ -15,4 +15,4 @@ class WidgetWebComponent extends HTMLElement {
   }
 }
 
-customElements.define("feedback-widget", WidgetWebComponent);
+export default WidgetWebComponent;
