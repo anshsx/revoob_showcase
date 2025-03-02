@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Widget from "./components/widget";
+import Widget from "@/src/components/widget";
 
 class WidgetWebComponent extends HTMLElement {
   connectedCallback() {
