@@ -17,7 +17,7 @@ export const Widget = ({ projectId }) => {
         console.log("Fetching feedbacks for projectId:", projectId);
 
         const { data, error } = await supabase
-          .from("Feedback")
+          .from("feedbacks")
           .select("id, user_name, user_email, message, rating")
           .eq("project_id", Number(projectId)); // Ensure it's a number
 
