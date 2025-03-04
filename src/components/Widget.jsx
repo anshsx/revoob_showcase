@@ -8,22 +8,26 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export const Widget = ({ projectId }) => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchFeedbacks = async () => {
       if (!projectId) return;
 
-      const { data, error } = await supabase
-        .from("Feedback")
-        .select("id, user_name, user_email, message, rating")
-        .eq("project_id", projectId);
+      try {
+        const { data, error } = await supabase
+          .from("Feedback")
+          .select("id, user_name, user_email, message, rating")
+          .eq("project_id", projectId);
 
-      if (error) {
-        console.error("Error fetching feedbacks:", error);
-      } else {
+        if (error) throw error;
+
         setFeedbacks(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchFeedbacks();
@@ -35,6 +39,8 @@ export const Widget = ({ projectId }) => {
 
       {loading ? (
         <p className="text-gray-500 text-sm">Loading...</p>
+      ) : error ? (
+        <p className="text-red-500 text-sm">Error: {error}</p>
       ) : feedbacks.length === 0 ? (
         <p className="text-gray-500 text-sm">No feedbacks found.</p>
       ) : (
