@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+import supabase from "../supabaseClient"; // Import the client
 
 export const Widget = ({ projectId }) => {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -12,19 +8,25 @@ export const Widget = ({ projectId }) => {
 
   useEffect(() => {
     const fetchFeedbacks = async () => {
-      if (!projectId) return;
+      if (!projectId) {
+        console.error("Missing projectId");
+        return;
+      }
 
       try {
+        console.log("Fetching feedbacks for projectId:", projectId);
+
         const { data, error } = await supabase
           .from("Feedback")
           .select("id, user_name, user_email, message, rating")
-          .eq("project_id", projectId);
+          .eq("project_id", Number(projectId)); // Ensure it's a number
 
         if (error) throw error;
 
         setFeedbacks(data);
       } catch (err) {
         setError(err.message);
+        console.error("Supabase fetch error:", err);
       } finally {
         setLoading(false);
       }
