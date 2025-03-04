@@ -30,18 +30,21 @@ export const Widget = ({ projectId }) => {
   }, [projectId]);
 
   return (
-    <div style={{ fontFamily: "Arial, sans-serif", padding: "10px", border: "1px solid #ccc", borderRadius: "5px", width: "300px" }}>
-      <h3>Feedbacks</h3>
+    <div className="p-5 border border-gray-300 rounded-lg w-80 bg-white shadow-md">
+      <h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-3">Feedbacks</h3>
+
       {loading ? (
-        <p>Loading...</p>
+        <p className="text-gray-500 text-sm">Loading...</p>
       ) : feedbacks.length === 0 ? (
-        <p>No feedbacks found.</p>
+        <p className="text-gray-500 text-sm">No feedbacks found.</p>
       ) : (
-        <ul>
+        <ul className="space-y-3">
           {feedbacks.map((feedback) => (
-            <li key={feedback.id}>
-              <strong>{feedback.user_name} ({feedback.rating}⭐)</strong>
-              <p>{feedback.message}</p>
+            <li key={feedback.id} className="p-3 border rounded-md shadow-sm bg-gray-50">
+              <strong className="text-gray-700">
+                {feedback.user_name} <span className="text-yellow-500">({feedback.rating}⭐)</span>
+              </strong>
+              <p className="text-gray-600 text-sm mt-1">{feedback.message}</p>
             </li>
           ))}
         </ul>
