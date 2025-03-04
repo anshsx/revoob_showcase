@@ -5,7 +5,7 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-const Widget = ({ projectId }) => {
+export const Widget = ({ projectId }) => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -49,5 +49,3 @@ const Widget = ({ projectId }) => {
     </div>
   );
 };
-
-export default Widget;
